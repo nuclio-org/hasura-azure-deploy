@@ -1,39 +1,48 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-      "name": {
-          "value": "hasura"
-      },
-      "postgresVersion": {
-          "value": "11"
-      },
-      "postgresPricingTier": {
-          "value": "Basic"
-      },
-      "postgresCPUCores": {
-          "value": 2
-      },
-      "postgresDiskSizeInMB": {
-          "value": 10240
-      },
-      "postgresAdminUsername": {
-          "value": "hasura"
-      },
-      "postgresAdminPassword": {
-          "value": "pa55w0rd"
-      },
-      "postgresDatabaseName": {
-          "value": "hasura"
-      },
-      "hasuraEnvTelemetry": {
-          "value": false
-      },
-      "hasuraEnvAdminSecret": {
-          "value": ""
-      },
-      "hasuraEnvJWTSecret": {
-          "value": ""
-      }
-  }
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": null
+        },
+        "pgServerSuffix": {
+            "value": "-pg-server"
+        },
+        "postgresVersion": {
+            "value": "11"
+        },
+        "postgresPricingTier": {
+            "value": "Basic"
+        },
+        "postgresCPUCores": {
+            "value": 2
+        },
+        "postgresDiskSizeInMB": {
+            "value": 10240
+        },
+        "postgresAdminUsername": {
+            "value": "hasura"
+        },
+        "postgresAdminPassword": {
+            "value": null
+        },
+        "postgresDatabaseName": {
+            "value": "hasura"
+        },
+        "containerGroupSuffix": {
+            "value": "-container-group"
+        },
+        "hasuraVersion": {
+            "value": "latest"
+        },
+        "hasuraEnvTelemetry": {
+            "value": false
+        },
+        "hasuraEnvAdminSecret": {
+            "value": ""
+        },
+        "hasuraEnvJWTSecret": {
+            "value": ""
+        }
+    }
 }

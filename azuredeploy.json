@@ -8,7 +8,14 @@
       "minLength": 5,
       "maxLength": 63,
       "metadata": {
-        "description": "Unique name for the deployment, used for Postgres Server, Hasura and DNS label."
+        "description": "Unique name for deployment - used as basename for Postgres Server, Hasura and DNS label."
+      }
+    },
+    "pgServerSuffix": {
+      "defaultValue": "-pg-server",
+      "type": "string",
+      "metadata": {
+        "description": "Suffix for Postgres Server (name + suffix - might want to start with '-')"
       }
     },
     "postgresVersion": {
@@ -87,6 +94,31 @@
         "description": "Name of the database to be created."
       }
     },
+    "containerGroupSuffix": {
+      "defaultValue": "-container-group",
+      "type": "string",
+      "metadata": {
+        "description": "Suffix for Container Group Instance (name + suffix - might want to start with '-')"
+      }
+    },
+    "hasuraVersion": {
+      "type": "string",
+      "allowedValues": [
+        "latest",
+        "v1.3.0",
+        "v1.3.0-beta.4",
+        "v1.3.0-beta.3",
+        "v1.3.0-beta.2",
+        "v1.3.0-beta.1",
+        "v1.2.2",
+        "v1.2.1",
+        "v1.2.0"
+      ],
+      "defaultValue": "latest",
+      "metadata": {
+        "description": "Version of Hasura to use."
+      }
+    },
     "hasuraEnvTelemetry": {
       "type": "bool",
       "defaultValue": false,
@@ -110,7 +142,7 @@
     }
   },
   "variables": {
-    "serverName": "[concat(parameters('name'), '-pg-server')]",
+    "serverName": "[concat(parameters('name'), parameters('pgServerSuffix'))]",
     "adminUser": "[parameters('postgresAdminUsername')]",
     "adminPassword": "[parameters('postgresAdminPassword')]",
     "dbName": "[parameters('postgresDatabaseName')]",
@@ -118,9 +150,9 @@
     "dbSKUCapacity": "[parameters('postgresCPUCores')]",
     "dbSKUSizeInMB": "[parameters('postgresDiskSizeInMB')]",
     "firewallRuleName": "allow-all-azure-firewall-rule",
-    "containerGroupName": "[concat(parameters('name'), '-container-group')]",
+    "containerGroupName": "[concat(parameters('name'), parameters('containerGroupSuffix'))]",
     "containerName": "hasura-graphql-engine",
-    "containerImage": "hasura/graphql-engine:v1.3.0-beta.4",
+    "containerImage": "[concat('hasura/graphql-engine:', parameters('hasuraVersion'))]",
     "hasuraTelemetry": "[parameters('hasuraEnvTelemetry')]",
     "hasuraAdminSecret": "[parameters('hasuraEnvAdminSecret')]",
     "hasuraJWTSecret": "[parameters('hasuraEnvJWTSecret')]"
