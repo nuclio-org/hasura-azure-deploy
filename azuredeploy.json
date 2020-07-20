@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "name": {
@@ -13,8 +13,9 @@
     },
     "postgresVersion": {
       "type": "string",
-      "defaultValue": "10",
+      "defaultValue": "11",
       "allowedValues": [
+        "11",
         "10",
         "9.6",
         "9.5"
@@ -84,6 +85,27 @@
       "metadata": {
         "description": "Name of the database to be created."
       }
+    },
+    "hasuraEnvTelemetry": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Send anonymised usage data to Hasura"
+      }
+    },
+    "hasuraEnvAdminSecret": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Set an Admin password to access the console and (full) api"
+      }
+    },
+    "hasuraEnvJWTSecret": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Set JWT secret to allow secure api access for authenticated users"
+      }
     }
   },
   "variables": {
@@ -97,7 +119,10 @@
     "firewallRuleName": "allow-all-azure-firewall-rule",
     "containerGroupName": "[concat(parameters('name'), '-container-group')]",
     "containerName": "hasura-graphql-engine",
-    "containerImage": "hasura/graphql-engine:v1.3.0-beta.4"
+    "containerImage": "hasura/graphql-engine:v1.3.0-beta.4",
+    "hasuraTelemetry": "[parameters('hasuraEnvTelemetry')]",
+    "hasuraAdminSecret": "[parameters('hasuraEnvAdminSecret')]",
+    "hasuraJWTSecret": "[parameters('hasuraEnvJWTSecret')]"
   },
   "resources": [
     {
@@ -183,6 +208,23 @@
                 "80",
                 "--enable-console",
                 "--dev-mode"
+              ],
+              "environmentVariables": [
+                {
+                  "name": "HASURA_GRAPHQL_ENABLE_TELEMETRY",
+                  "value": "[variables('hasuraTelemetry')]",
+                  "secureValue": ""
+                },
+                {
+                  "name": "HASURA_GRAPHQL_ADMIN_SECRET",
+                  "value": "[variables('hasuraAdminSecret')]",
+                  "secureValue": ""
+                },
+                {
+                  "name": "HASURA_GRAPHQL_JWT_SECRET",
+                  "value": "[variables('hasuraJWTSecret')]",
+                  "secureValue": ""
+                }
               ],
               "resources": {
                 "requests": {
