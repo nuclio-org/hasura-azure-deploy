@@ -212,18 +212,15 @@
               "environmentVariables": [
                 {
                   "name": "HASURA_GRAPHQL_ENABLE_TELEMETRY",
-                  "value": "[variables('hasuraTelemetry')]",
-                  "secureValue": ""
+                  "value": "[variables('hasuraTelemetry')]"
                 },
                 {
                   "name": "HASURA_GRAPHQL_ADMIN_SECRET",
-                  "value": "[variables('hasuraAdminSecret')]",
-                  "secureValue": ""
+                  "value": "[variables('hasuraAdminSecret')]"
                 },
                 {
                   "name": "HASURA_GRAPHQL_JWT_SECRET",
-                  "value": "[variables('hasuraJWTSecret')]",
-                  "secureValue": ""
+                  "value": "[variables('hasuraJWTSecret')]"
                 }
               ],
               "resources": {
